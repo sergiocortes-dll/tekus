@@ -1,0 +1,54 @@
+# .NET Core / ASP.NET Core
+## Ignorar builds y bins
+**/bin/
+**/obj/
+
+## Archivos de usuario y VS
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.vs/
+.vscode/*
+.vscode/settings.json  
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+
+## Paquetes NuGet
+.nuget/
+packages/
+**/project.lock.json
+**/project.fragment.lock.json
+**/artifacts/
+
+## Publicación y tests
+**/publish/
+**/TestResults/
+**/coverage/
+
+## EF
+**/Migrations/
+
+## Secrets y configs de dev
+*/appsettings.Development.json
+*/appsettings.Local.json
+*/secrets.json
+
+# Archivos temporales y OS-specific
+.DS_Store
+Thumbs.db
+*.swp
+*.*~
+*.bak
+*.orig
+*.rej
+*.tmp
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Sensitive data
+db/*.sql~  # Backups de scripts SQL
+docs/*.png~  # Backups de diagramas
