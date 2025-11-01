@@ -1,0 +1,38 @@
+CREATE DATABASE TekusDb;
+GO
+
+USE TekusDb;
+GO
+
+CREATE TABLE Provider (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    NIT VARCHAR(50) UNIQUE NOT NULL,
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL CHECK(Email LIKE '%_@__%.__%'),
+    CustomFields NVARCHAR(MAX)
+);
+GO
+
+CREATE TABLE Service (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    HourlyRateUSD DECIMAL(10,2) NOT NULL CHECK (HourlyRateUSD > 0),
+    ProviderId INT NOT NULL,
+    FOREIGN KEY (ProviderId) REFERENCES Provider(Id) ON DELETE CASCADE
+);
+GO
+
+CREATE TABLE Country (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL UNIQUE
+);
+GO
+
+CREATE TABLE ServiceCountry (
+    ServiceId INT NOT NULL,
+    CountryId INT NOT NULL,
+    PRIMARY KEY (ServiceId, CountryId),
+    FOREIGN KEY (ServiceId) REFERENCES Service(Id) ON DELETE CASCADE,
+    FOREIGN KEY (CountryId) REFERENCES Country(Id) ON DELETE CASCADE
+);
+GO
