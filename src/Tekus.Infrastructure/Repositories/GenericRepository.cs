@@ -4,12 +4,12 @@ using Tekus.Infrastructure.Persistence;
 
 namespace Tekus.Infrastructure.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
+public class GenericRepository<T> : IGenericRepository<T> where T : class
 {
     protected readonly TekusDbContext _context;
     protected readonly DbSet<T> _dbSet;
 
-    public Repository(TekusDbContext context)
+    public GenericRepository(TekusDbContext context)
     {
         _context = context;
         _dbSet = _context.Set<T>();
