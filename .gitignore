@@ -2,6 +2,7 @@
 ## Ignorar builds y bins
 **/bin/
 **/obj/
+.idea
 
 ## Archivos de usuario y VS
 *.user
