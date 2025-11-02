@@ -8,7 +8,8 @@ public class TekusDbContext : DbContext
     public DbSet<Provider> Provider { get; set; }
     public DbSet<Service> Service { get; set; }
     public DbSet<Country> Country { get; set; }
-
+    public DbSet<ServiceCountry> ServiceCountry { get; set; }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -20,23 +21,17 @@ public class TekusDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Service>()
-            .HasOne(s => s.Provider)
-            .WithMany(p => p.Services)
-            .HasForeignKey(s => s.ProviderId);
+        modelBuilder.Entity<ServiceCountry>()
+            .HasKey(sc => new { sc.ServiceId, sc.CountryId });
 
-        modelBuilder.Entity<Service>()
-            .HasMany(s => s.Countries)
-            .WithMany(c => c.Services)
-            .UsingEntity<Dictionary<string, object>>(
-                "ServiceCountry",
-                j => j.HasOne<Country>().WithMany().HasForeignKey("CountryId"),
-                j => j.HasOne<Service>().WithMany().HasForeignKey("ServiceId"),
-                j =>
-                {
-                    j.HasKey("ServiceId", "CountryId");
-                });
-        
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<ServiceCountry>()
+            .HasOne(sc => sc.Service)
+            .WithMany(s => s.ServiceCountry)
+            .HasForeignKey(sc => sc.ServiceId);
+
+        modelBuilder.Entity<ServiceCountry>()
+            .HasOne(sc => sc.Country)
+            .WithMany(c => c.ServiceCountry)
+            .HasForeignKey(sc => sc.CountryId);
     }
 }
