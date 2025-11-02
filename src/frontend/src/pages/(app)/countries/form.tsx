@@ -31,7 +31,7 @@ export default function CountryForm() {
       } else {
         await createCountry(country);
       }
-      navigate("/countries");
+      navigate("/app/countries");
     } catch (err) {
       console.error(err);
       alert("Error al guardar el país.");

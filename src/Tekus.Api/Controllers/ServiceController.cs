@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tekus.Application.DTOs;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
@@ -28,9 +29,10 @@ public class ServiceController : ControllerBase
     public async Task<IActionResult> GetById(int id)
     {
         var service = await _service.GetByIdAsync(id);
-        if  (service == null) return NotFound();
+        if (service == null) return NotFound();
 
-        return Ok(service);
+        ServiceResponseDto dto = ServiceResponseDto.MapToDto(service);
+        return Ok(dto);
     }
 
     [HttpPost]

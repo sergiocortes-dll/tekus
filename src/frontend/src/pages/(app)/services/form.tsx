@@ -33,7 +33,7 @@ export default function ServiceForm() {
       } else {
         await createService(service);
       }
-      navigate("/services");
+      navigate("/app/services");
     } catch (err) {
       console.error(err);
       alert("Error al guardar el servicio.");

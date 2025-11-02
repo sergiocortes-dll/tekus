@@ -42,7 +42,7 @@ export default function ProviderForm() {
       } else {
         await createProvider(updated);
       }
-      navigate("/providers");
+      navigate("/app/providers");
     } catch (err) {
       console.error(err);
       alert("Error al guardar el proveedor.");

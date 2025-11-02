@@ -6,7 +6,14 @@ namespace Tekus.Application.Services;
 
 public class ServiceAppService : GenericService<Service>, IServiceAppService
 {
-    public ServiceAppService(IGenericRepository<Service> repository) : base(repository)
+    private readonly IServiceRepository _repository;
+    public ServiceAppService(IServiceRepository repository) : base(repository)
     {
+        _repository = repository;
+    }
+
+     public override async Task<Service?> GetByIdAsync(int id)
+    {
+        return await _repository.GetByIdAsync(id);
     }
 }

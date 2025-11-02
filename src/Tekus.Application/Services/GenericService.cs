@@ -12,7 +12,7 @@ public class GenericService<T> : IGenericService<T> where T : class
         _repository = repository;
     }
 
-    public async Task<T?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
+    public virtual async Task<T?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
 
     public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 

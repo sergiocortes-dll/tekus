@@ -25,10 +25,12 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddHttpClient<ICountryExternalClient, CountryExternalClient>();
 
+builder.Services.AddDbContext<Tekus.Infrastructure.Persistence.TekusDbContext>();
+
+// Generic
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
-builder.Services.AddDbContext<Tekus.Infrastructure.Persistence.TekusDbContext>();
 // Provider
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
