@@ -38,7 +38,7 @@ public class ProviderController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = provider.Id }, provider);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Provider provider)
     {
         if (id != provider.Id) return BadRequest();
