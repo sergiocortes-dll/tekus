@@ -17,7 +17,9 @@ builder.Services.AddScoped<IProviderService, ProviderService>();
 // Country
 builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<ICountryService, CountryService>();
-
+// Service
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IServiceAppService, ServiceAppService>();
 
 // -----
 builder.Services.AddControllers();
