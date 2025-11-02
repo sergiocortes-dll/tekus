@@ -1,5 +1,6 @@
 import { createBrowserRouter, redirect } from "react-router";
 import Login from "./components/Login";
+import AppLayout from "./pages/(app)/_layout";
 import Countries from "./pages/(app)/countries";
 import CountryForm from "./pages/(app)/countries/form";
 import Providers from "./pages/(app)/providers";
@@ -28,6 +29,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: "app",
+        element: <AppLayout />,
         loader: () => {
           const token = localStorage.getItem("token");
           if (!token) {

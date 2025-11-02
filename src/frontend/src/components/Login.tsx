@@ -15,6 +15,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:5290/api/account/login', { username, password });
       localStorage.setItem('token', response.data.token);
       navigate("/app/providers");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Credenciales inválidas');
     }
