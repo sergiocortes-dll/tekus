@@ -40,7 +40,7 @@ public class ServiceController : ControllerBase
         return CreatedAtAction(nameof(GetById),  new { id = serviceApp.Id }, serviceApp);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] Service serviceApp)
     {
         if (id != serviceApp.Id) return BadRequest();
