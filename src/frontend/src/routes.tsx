@@ -7,6 +7,7 @@ import Providers from "./pages/(app)/providers";
 import ProviderForm from "./pages/(app)/providers/form";
 import Services from "./pages/(app)/services";
 import ServiceForm from "./pages/(app)/services/form";
+import Summary from "./pages/(app)/summary";
 import Layout from "./pages/_layout";
 
 export const routes = createBrowserRouter([
@@ -38,6 +39,10 @@ export const routes = createBrowserRouter([
           return null;
         },
         children: [
+          {
+            path: "summary",
+            element: <Summary />
+          },
           {
             path: "providers",
             children: [

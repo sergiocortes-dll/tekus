@@ -1,5 +1,5 @@
 import { AppBar, Breadcrumbs, Drawer, DrawerHeader } from "@/components/blocks";
-import { BusinessCenter, ChevronLeft, ChevronRight, Menu } from "@mui/icons-material";
+import { Assessment, BusinessCenter, ChevronLeft, ChevronRight, Menu } from "@mui/icons-material";
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, useTheme } from "@mui/material";
 import * as React from "react";
 import { NavLink, Outlet } from "react-router";
@@ -96,6 +96,50 @@ export default function AppLayout() {
               </ListItemIcon>
               <ListItemText
                 primary={"Providers"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={NavLink}
+              to="/app/summary"
+              sx={(theme) => ({
+                minHeight: 48,
+                px: 2.5,
+                "&.active": {
+                  background: theme.palette.action.selected,
+                },
+                justifyContent: open ? "initial" : "center",
+              })}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <Assessment />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Summary"}
                 sx={[
                   open
                     ? {

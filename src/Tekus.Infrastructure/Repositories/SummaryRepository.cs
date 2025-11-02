@@ -12,18 +12,27 @@ public class SummaryRepository : ISummaryRepository
     {
         _context = context;
     }
-    
+
     public async Task<object> GetSummaryAsync()
     {
         var providersPerCountry = await _context.ServiceCountry
+            .Include(sc => sc.Country)
             .GroupBy(sc => sc.CountryId)
-            .Select(g => new { CountryId = g.Key, Count = g.Select(sc => sc.Service.ProviderId).Distinct().Count() })
+            .Select(g => new {
+                CountryId = g.Key,
+                CountryName = g.FirstOrDefault().Country.Name ?? "Unknown",
+                Count = g.Select(sc => sc.Service.ProviderId).Distinct().Count() })
             .ToListAsync();
 
         var servicesPerCountry = await _context.ServiceCountry
+            .Include(sc => sc.Country)
             .GroupBy(sc => sc.CountryId)
-            .Select(g => new { CountryId = g.Key, Count = g.Count() })
+            .Select(g => new {
+                CountryId = g.Key,
+                CountryName = g.FirstOrDefault().Country.Name ?? "Unknown",
+                Count = g.Count()
+            })
             .ToListAsync();
-        
+
         return new { ProvidersPerCountry = providersPerCountry, ServicesPerCountry = servicesPerCountry };    }
 }

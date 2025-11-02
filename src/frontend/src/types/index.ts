@@ -20,3 +20,14 @@ export interface Country {
   name: string;
   services?: Service[];
 }
+
+export interface SummaryItem {
+  countryId: number;
+  countryName: string;
+  count: number;
+}
+
+export interface SummaryData {
+  providersPerCountry: SummaryItem[];
+  servicesPerCountry: SummaryItem[];
+}
