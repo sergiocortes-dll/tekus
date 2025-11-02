@@ -94,7 +94,7 @@ public class ServiceAppService : GenericService<Service>, IServiceAppService
     public async Task<PagedResponse<ServiceResponseDto>> GetPagedServicesAsync(PaginationFilter filter)
     {
         var skip = (filter.PageNumber - 1) * filter.PageSize;
-        var entities = await _repository.GetPagedAsync(skip, filter.PageSize, filter.Search, filter.Sort, filter.SortDirection);
+        var entities = await _repository.GetPagedAsync(skip, filter.PageSize, filter.Search, filter.SearchField, filter.Sort, filter.SortDirection);
 
         var dtos = entities.Select(s => new ServiceResponseDto
         {
@@ -110,11 +110,12 @@ public class ServiceAppService : GenericService<Service>, IServiceAppService
 
         var search = filter.Search?.Trim() ?? string.Empty;
 
+        
         var totalRecords = await _repository.CountAsync(s =>
             s.Name.Contains(search) ||
             (s.Provider != null && s.Provider.Name.Contains(search))
         );
 
-        return new PagedResponse<ServiceResponseDto>(dtos, filter.PageNumber, filter.PageSize, totalRecords, filter.Sort, filter.SortDirection, filter.Search);
+        return new PagedResponse<ServiceResponseDto>(dtos, filter.PageNumber, filter.PageSize, totalRecords, filter.Sort, filter.SortDirection, filter.Search, filter.SearchField);
     }
 }

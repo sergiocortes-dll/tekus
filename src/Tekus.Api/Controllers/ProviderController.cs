@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tekus.Application.DTOs;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
@@ -17,11 +18,18 @@ public class ProviderController : ControllerBase
         _service = service;
     }
 
+    // [HttpGet]
+    // public async Task<IActionResult> GetAll()
+    // {
+    //     var providers = await _service.GetAllAsync();
+    //     return Ok(providers);
+    // }
+    
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<PagedResponse<ServiceResponseDto>>> GetPaged([FromQuery] PaginationFilter filter)
     {
-        var providers = await _service.GetAllAsync();
-        return Ok(providers);
+        var pagedServices = await _service.GetPagedServicesAsync(filter);
+        return Ok(pagedServices);
     }
 
     [HttpGet("{id}")]

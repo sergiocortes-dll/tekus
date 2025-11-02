@@ -7,6 +7,7 @@ public class PaginationFilter
     public string? Sort { get; set; }
     public string? SortDirection { get; set; } = "asc";
     public string? Search { get; set; }
+    public string? SearchField { get; set; }
 
     public PaginationFilter()
     {

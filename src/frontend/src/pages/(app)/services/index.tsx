@@ -24,13 +24,15 @@ export default function Services() {
     });
 
     const fetchServices = async () => {
-        const searchValue = filterModel.items[0]?.value;
-        const search = searchValue && searchValue !== "null" ? searchValue : "";
+        const filterItem = filterModel.items[0];
+        const searchField = filterItem?.field || "";
+        const searchValue = filterItem?.value || "";
 
         const result: PagedServicesResponse = await getServices({
             pageNumber: paginationModel.page + 1,
             pageSize: paginationModel.pageSize,
-            search
+            search: searchValue,
+            searchField: searchField
         });
 
         setServices(result.data);

@@ -1,10 +1,12 @@
-import type { Provider } from "../types";
+import type { Provider, PaginationParams, PagedProvidersResponse } from "../types";
+
 import { api } from "./index";
 
-export const getProviders = async () => {
-  const response = await api.get("/provider");
-  return response.data;
-};
+export async function getProviders(params?: PaginationParams): Promise<PagedProvidersResponse> {
+    const query = new URLSearchParams(params as Record<string, string>).toString();
+    const { data } = await api.get(`/provider?${query}`);
+    return data as PagedProvidersResponse;
+}
 
 export const getProviderById = async (id: number) => {
   const response = await api.get(`/provider/${id}`);

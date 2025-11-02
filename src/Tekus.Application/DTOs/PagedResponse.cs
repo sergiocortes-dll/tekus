@@ -9,9 +9,10 @@ public class PagedResponse<T>
     public string? Sort { get; set; }
     public string? SortDirection { get; set; }
     public string? Search { get; set; }
+    public string? SearchField { get; set; }
     public IEnumerable<T> Data { get; set; }
 
-    public PagedResponse(IEnumerable<T> data, int pageNumber, int pageSize, int totalRecords, string? sort, string? sortDirection, string? search)
+    public PagedResponse(IEnumerable<T> data, int pageNumber, int pageSize, int totalRecords, string? sort, string? sortDirection, string? search, string? searchField)
     {
         PageNumber = pageNumber;
         PageSize = pageSize;
@@ -20,6 +21,7 @@ public class PagedResponse<T>
         Sort = sort;
         SortDirection = sortDirection;
         Search = search;
+        SearchField = searchField;
         Data = data;
     }
 }

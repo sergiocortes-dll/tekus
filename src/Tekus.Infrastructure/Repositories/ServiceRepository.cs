@@ -25,7 +25,13 @@ public class ServiceRepository : GenericRepository<Service>, IServiceRepository
         return service;
     }
     
-    public override async Task<IReadOnlyList<Service>> GetPagedAsync(int skip, int take, string? search = null, string? sort = null, string? sortDirection = null)
+    public override async Task<IReadOnlyList<Service>> GetPagedAsync(
+        int skip,
+        int take,
+        string? search = null,
+        string? searchField = null,
+        string? sort = null,
+        string? sortDirection = null)
     {
         var query = _context.Service
             .Include(s => s.Provider)
@@ -33,8 +39,16 @@ public class ServiceRepository : GenericRepository<Service>, IServiceRepository
             .ThenInclude(sc => sc.Country)
             .AsQueryable();
 
-        if (!string.IsNullOrEmpty(search))
-            query = query.Where(s => s.Name.Contains(search) || s.Provider.Name.Contains(search));
+        if (!string.IsNullOrEmpty(search) && !string.IsNullOrEmpty(searchField))
+        {
+            query = searchField.ToLower() switch
+            {
+                "name" => query.Where(s => s.Name.Contains(search)),
+                "hourlyrateusd" => query.Where(s => s.HourlyRateUSD.ToString().Contains(search)),
+                "providername" => query.Where(s => s.Provider.Name.Contains(search)),
+                _ => query
+            };
+        }
 
         query = (sort?.ToLower(), sortDirection?.ToLower()) switch
         {
@@ -42,8 +56,8 @@ public class ServiceRepository : GenericRepository<Service>, IServiceRepository
             ("name", _) => query.OrderBy(s => s.Name),
             ("hourlyrate", "desc") => query.OrderByDescending(s => s.HourlyRateUSD),
             ("hourlyrate", _) => query.OrderBy(s => s.HourlyRateUSD),
-            ("provider", "desc") => query.OrderByDescending(s => s.Provider.Name),
-            ("provider", _) => query.OrderBy(s => s.Provider.Name),
+            ("provider", "desc") => query.OrderByDescending(s => s.Provider != null ? s.Provider.Name : string.Empty),
+            ("provider", _) => query.OrderBy(s => s.Provider != null ? s.Provider.Name : string.Empty),
             _ => query.OrderBy(s => s.Id)
         };
 

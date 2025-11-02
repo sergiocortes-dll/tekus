@@ -26,7 +26,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.ToListAsync();
     }
 
-    public virtual async Task<IReadOnlyList<T>> GetPagedAsync(int skip, int take, string? search = null, string? sort = null, string? sortDirection = null)
+    public virtual async Task<IReadOnlyList<T>> GetPagedAsync(int skip, int take, string? search = null, string? searchField = null, string? sort = null, string? sortDirection = null)
     {
         var query = _context.Set<T>().AsQueryable(); // genérico
 
