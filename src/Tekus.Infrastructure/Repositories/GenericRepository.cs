@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Tekus.Application.DTOs;
 using Tekus.Domain.Interfaces;
 using Tekus.Infrastructure.Persistence;
 
@@ -25,6 +26,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.ToListAsync();
     }
 
+    public virtual async Task<IReadOnlyList<T>> GetPagedAsync(int skip, int take, string? search = null, string? sort = null, string? sortDirection = null)
+    {
+        var query = _context.Set<T>().AsQueryable(); // genérico
+
+        return await query.Skip(skip).Take(take).ToListAsync();
+    }
+    
     public async Task AddAsync(T entity)
     {
         await _dbSet.AddAsync(entity);
@@ -41,4 +49,12 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     }
 
     public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+    
+    public virtual async Task<int> CountAsync(Func<T, bool>? predicate = null)
+    {
+        if (predicate == null)
+            return await _context.Set<T>().CountAsync();
+        else
+            return await Task.FromResult(_context.Set<T>().Count(predicate));
+    }
 }

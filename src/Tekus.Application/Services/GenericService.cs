@@ -1,3 +1,4 @@
+using Tekus.Application.DTOs;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Interfaces;
 
@@ -12,17 +13,22 @@ public class GenericService<T> : IGenericService<T> where T : class
         _repository = repository;
     }
 
+    public Task<PagedResponse<T>> GetPagedAsync(PaginationFilter filter)
+    {
+        throw new NotImplementedException();
+    }
+
     public virtual async Task<T?> GetByIdAsync(int id) => await _repository.GetByIdAsync(id);
 
     public async Task<IEnumerable<T>> GetAllAsync() => await _repository.GetAllAsync();
 
-    public async Task AddAsync(T entity)
+    public virtual async Task AddAsync(T entity)
     {
         await _repository.AddAsync(entity);
         await _repository.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(T entity)
+    public virtual async Task UpdateAsync(T entity)
     {
         await _repository.UpdateAsync(entity);
         await _repository.SaveChangesAsync();

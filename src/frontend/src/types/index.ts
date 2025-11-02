@@ -12,7 +12,8 @@ export interface Service {
   name: string;
   hourlyRateUSD: number;
   providerId: number;
-  countries?: Country[]
+  countries: number[];
+  countryObjects?: Country[]
 }
 
 export interface Country {
@@ -30,4 +31,20 @@ export interface SummaryItem {
 export interface SummaryData {
   providersPerCountry: SummaryItem[];
   servicesPerCountry: SummaryItem[];
+}
+
+export interface PaginationParams {
+    pageNumber?: number;
+    pageSize?: number;
+    search?: string;
+    sort?: string;
+    sortDirection?: "asc" | "desc";
+}
+
+export interface PagedServicesResponse {
+    data: Service[];
+    pageNumber: number;
+    pageSize: number;
+    totalRecords: number;
+    totalPages: number;
 }
