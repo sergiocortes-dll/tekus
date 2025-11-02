@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
 namespace Tekus.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/provider")]
 public class ProviderController : ControllerBase

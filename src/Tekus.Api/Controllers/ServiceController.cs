@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
 namespace Tekus.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/service")]
 public class ServiceController : ControllerBase
@@ -27,7 +29,7 @@ public class ServiceController : ControllerBase
     {
         var service = await _service.GetByIdAsync(id);
         if  (service == null) return NotFound();
-        
+
         return Ok(service);
     }
 
