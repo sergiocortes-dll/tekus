@@ -1,6 +1,3 @@
 @Tekus.Api_HostAddress = http://localhost:5290
 
-GET {{Tekus.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
