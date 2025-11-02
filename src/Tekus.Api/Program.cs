@@ -5,6 +5,19 @@ using Tekus.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+
 // Add services to the container.
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
@@ -28,6 +41,9 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+
+// CORS
+app.UseCors("AllowFrontend");
 
 // Middleware
 app.UseMiddleware<Tekus.Api.Middleware.AuthMiddleware>();
