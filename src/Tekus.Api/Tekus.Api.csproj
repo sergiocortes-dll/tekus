@@ -8,6 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tekus.Application\Tekus.Application.csproj" />
+    <ProjectReference Include="..\Tekus.Infrastructure\Tekus.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
