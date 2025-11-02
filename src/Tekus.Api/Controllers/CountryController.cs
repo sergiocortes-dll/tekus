@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
 namespace Tekus.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/api/country")]
 public class CountryController : ControllerBase
@@ -27,7 +29,7 @@ public class CountryController : ControllerBase
     {
         var country = await _service.GetByIdAsync(id);
         if (country == null) return NotFound();
-        
+
         return Ok(country);
     }
 
@@ -42,7 +44,7 @@ public class CountryController : ControllerBase
     public async Task<IActionResult> Update(int id, [FromBody] Country country)
     {
         if (id != country.Id) return BadRequest();
-        
+
         await _service.UpdateAsync(country);
         return NoContent();
     }

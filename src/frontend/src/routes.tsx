@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, redirect } from "react-router";
+import Login from "./components/Login";
 import Countries from "./pages/(app)/countries";
 import CountryForm from "./pages/(app)/countries/form";
 import Providers from "./pages/(app)/providers";
@@ -17,53 +18,74 @@ export const routes = createBrowserRouter([
         element: <div>Hola</div>,
       },
       {
-        path: "providers",
+        path: "auth",
         children: [
           {
-            index: true,
-            element: <Providers />,
-          },
-          {
-            path: "new",
-            element: <ProviderForm />,
-          },
-          {
-            path: ":id",
-            element: <ProviderForm />,
-          },
-        ],
+            path: "login",
+            element: <Login />
+          }
+        ]
       },
       {
-        path: "countries",
+        path: "app",
+        loader: () => {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            throw redirect("/auth/login");
+          }
+          return null;
+        },
         children: [
           {
-            index: true,
-            element: <Countries />,
+            path: "providers",
+            children: [
+              {
+                index: true,
+                element: <Providers />,
+              },
+              {
+                path: "new",
+                element: <ProviderForm />,
+              },
+              {
+                path: ":id",
+                element: <ProviderForm />,
+              },
+            ],
           },
           {
-            path: "new",
-            element: <CountryForm />,
+            path: "countries",
+            children: [
+              {
+                index: true,
+                element: <Countries />,
+              },
+              {
+                path: "new",
+                element: <CountryForm />,
+              },
+              {
+                path: ":id",
+                element: <CountryForm />,
+              },
+            ],
           },
           {
-            path: ":id",
-            element: <CountryForm />,
-          },
-        ],
-      },
-      {
-        path: "services",
-        children: [
-          {
-            index: true,
-            element: <Services />,
-          },
-          {
-            path: "new",
-            element: <ServiceForm />,
-          },
-          {
-            path: ":id",
-            element: <ServiceForm />,
+            path: "services",
+            children: [
+              {
+                index: true,
+                element: <Services />,
+              },
+              {
+                path: "new",
+                element: <ServiceForm />,
+              },
+              {
+                path: ":id",
+                element: <ServiceForm />,
+              },
+            ],
           },
         ],
       },
