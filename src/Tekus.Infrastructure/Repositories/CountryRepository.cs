@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Tekus.Domain.Entities;
 using Tekus.Domain.Interfaces;
 using Tekus.Infrastructure.Persistence;

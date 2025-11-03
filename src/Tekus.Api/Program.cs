@@ -5,6 +5,7 @@ using Tekus.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Tekus.Infrastructure.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +23,14 @@ builder.Services.AddCors(options =>
 
 
 // Add services to the container.
+builder.Services.AddHttpClient<ICountryExternalClient, CountryExternalClient>();
 
+builder.Services.AddDbContext<Tekus.Infrastructure.Persistence.TekusDbContext>();
+
+// Generic
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
-builder.Services.AddDbContext<Tekus.Infrastructure.Persistence.TekusDbContext>();
 // Provider
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
@@ -36,6 +40,12 @@ builder.Services.AddScoped<ICountryService, CountryService>();
 // Service
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IServiceAppService, ServiceAppService>();
+// Summary
+builder.Services.AddScoped<ISummaryRepository, SummaryRepository>();
+builder.Services.AddScoped<ISummaryService, SummaryService>();
+
+//
+builder.Services.AddHostedService<CountrySyncBackgroundService>();
 
 // -----
 builder.Services.AddControllers();
@@ -62,9 +72,6 @@ var app = builder.Build();
 
 // CORS
 app.UseCors("AllowFrontend");
-
-// Middleware
-// app.UseMiddleware<Tekus.Api.Middleware.AuthMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

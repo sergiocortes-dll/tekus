@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tekus.Application.DTOs;
 using Tekus.Application.Interfaces;
 using Tekus.Domain.Entities;
 
@@ -17,35 +18,89 @@ public class ServiceController : ControllerBase
         _service = service;
     }
 
+    // [HttpGet]
+    // public async Task<IActionResult> GetAll()
+    // {
+    //     var services = await _service.GetAllAsync();
+    //     return Ok(services);
+    // }
+    
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<ActionResult<PagedResponse<ServiceResponseDto>>> GetPaged([FromQuery] PaginationFilter filter)
     {
-        var services = await _service.GetAllAsync();
-        return Ok(services);
+        var pagedServices = await _service.GetPagedServicesAsync(filter);
+        return Ok(pagedServices);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var service = await _service.GetByIdAsync(id);
-        if  (service == null) return NotFound();
+        if (service == null) return NotFound();
 
-        return Ok(service);
+        ServiceResponseDto dto = ServiceResponseDto.MapToDto(service);
+        return Ok(dto);
     }
+
+    [HttpGet("by-provider/{providerId:int}")]
+    public async Task<IActionResult> GetByProvider(int providerId)
+    {
+        var services = await _service.GetByProviderAsync(providerId);
+
+        if (services == null || !services.Any())
+            return NotFound(new { message = "This provider don't have services." });
+
+        return Ok(services);
+    }
+
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Service serviceApp)
+    public async Task<IActionResult> Create([FromBody] ServiceRequestDto request)
     {
-        await _service.AddAsync(serviceApp);
-        return CreatedAtAction(nameof(GetById),  new { id = serviceApp.Id }, serviceApp);
+        try
+        {
+            var service = await _service.CreateServiceWithCountriesAsync(
+                request.Name,
+                request.HourlyRateUSD,
+                request.ProviderId,
+                request.Countries
+            );
+            
+            return Ok(new { 
+                message = "Service created successfully", 
+                id = service.Id,
+                name = service.Name,
+                hourlyRateUSD = service.HourlyRateUSD,
+                providerId = service.ProviderId
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update(int id, [FromBody] Service serviceApp)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateServiceRequestDto request)
     {
-        if (id != serviceApp.Id) return BadRequest();
-
-        await _service.UpdateAsync(serviceApp);
-        return NoContent();
+        try
+        {
+            var service = await _service.UpdateServiceWithCountriesAsync(
+                id,
+                request.Name,
+                request.HourlyRateUSD,
+                request.ProviderId,
+                request.Countries
+            );
+            
+            return Ok(new { 
+                message = "Service updated successfully", 
+                id = service.Id
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

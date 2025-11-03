@@ -17,10 +17,18 @@ public class CountryController : ControllerBase
         _service = service;
     }
 
+    [HttpGet("external")]
+    public async Task<IActionResult> Get()
+    {
+        var countries = await _service.GetCountriesFromExternalServiceAsync();
+
+        return Ok(countries);
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var countries = await _service.GetAllAsync();
+        var countries = await _service.GetCountriesFromDatabaseAsync();
         return Ok(countries);
     }
 

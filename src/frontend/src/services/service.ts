@@ -1,9 +1,16 @@
-import type { Service } from "../types";
+import type { Service, PaginationParams, PagedServicesResponse } from "../types";
 import { api } from "./index";
 
-export const getServices = async () => {
-  const response = await api.get("/service");
-  return response.data;
+export async function getServices(params?: PaginationParams): Promise<PagedServicesResponse> {
+    const query = new URLSearchParams(params as Record<string, string>).toString();
+    const { data } = await api.get(`/service?${query}`);
+    return data as PagedServicesResponse;
+}
+
+
+export const getServicesByProvider = async (providerId: number): Promise<Service[]> => {
+  const { data } = await api.get(`/service/by-provider/${providerId}`);
+  return data;
 };
 
 export const getServiceById = async (id: number) => {
@@ -12,10 +19,25 @@ export const getServiceById = async (id: number) => {
 };
 
 export const createService = async (service: Service) => {
-  const response = await api.post("/service", service);
+
+  const payload = {
+    name: service.name,
+    hourlyRateUSD: service.hourlyRateUSD,
+    providerId: service.providerId,
+    countries: service.countries
+  };
+
+  const response = await api.post("/service", payload);
   return response.data;
 };
 
 export const updateService = async (id: number, service: Service) => {
-  await api.put(`/service/${id}`, service);
+  const payload = {
+    name: service.name,
+    hourlyRateUSD: service.hourlyRateUSD,
+    providerId: service.providerId,
+    countries: service.countries
+  };
+
+  await api.put(`/service/${id}`, payload);
 };
