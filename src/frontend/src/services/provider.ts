@@ -8,6 +8,11 @@ export async function getProviders(params?: PaginationParams): Promise<PagedProv
     return data as PagedProvidersResponse;
 }
 
+export const getAllProviders = async () => {
+  const response = await api.get("/provider/all");
+  return response.data;
+};
+
 export const getProviderById = async (id: number) => {
   const response = await api.get(`/provider/${id}`);
   return response.data;

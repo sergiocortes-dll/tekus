@@ -24,7 +24,7 @@ public class ServiceRepository : GenericRepository<Service>, IServiceRepository
 
         return service;
     }
-    
+
     public override async Task<IReadOnlyList<Service>> GetPagedAsync(
         int skip,
         int take,
@@ -62,5 +62,15 @@ public class ServiceRepository : GenericRepository<Service>, IServiceRepository
         };
 
         return await query.Skip(skip).Take(take).ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Service>> GetByProviderAsync(int providerId)
+    {
+        return await _context.Service
+            .Where(s => s.ProviderId == providerId)
+            .Include(s => s.Provider)
+            .Include(s => s.ServiceCountry)
+                .ThenInclude(sc => sc.Country)
+            .ToListAsync();
     }
 }

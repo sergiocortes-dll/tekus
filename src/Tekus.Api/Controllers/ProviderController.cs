@@ -18,12 +18,12 @@ public class ProviderController : ControllerBase
         _service = service;
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> GetAll()
-    // {
-    //     var providers = await _service.GetAllAsync();
-    //     return Ok(providers);
-    // }
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAll()
+    {
+        var providers = await _service.GetAllAsync();
+        return Ok(providers);
+    }
     
     [HttpGet]
     public async Task<ActionResult<PagedResponse<ServiceResponseDto>>> GetPaged([FromQuery] PaginationFilter filter)

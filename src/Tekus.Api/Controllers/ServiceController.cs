@@ -42,6 +42,18 @@ public class ServiceController : ControllerBase
         return Ok(dto);
     }
 
+    [HttpGet("by-provider/{providerId:int}")]
+    public async Task<IActionResult> GetByProvider(int providerId)
+    {
+        var services = await _service.GetByProviderAsync(providerId);
+
+        if (services == null || !services.Any())
+            return NotFound(new { message = "This provider don't have services." });
+
+        return Ok(services);
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] ServiceRequestDto request)
     {

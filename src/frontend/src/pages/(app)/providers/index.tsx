@@ -2,6 +2,9 @@ import { getProviders } from '@/services';
 import { DataGrid, type GridColDef, type GridPaginationModel, type GridFilterModel } from '@mui/x-data-grid';
 import * as React from 'react';
 import { type Provider, type PagedProvidersResponse } from '../../../types';
+import { Link, useNavigate } from 'react-router';
+import { Box, Button } from '@mui/material';
+import { Add } from '@mui/icons-material';
 
 const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 90 },
@@ -11,6 +14,7 @@ const columns: GridColDef[] = [
 ];
 
 export default function Providers() {
+    const navigate = useNavigate();
     const [providers, setProviders] = React.useState<Provider[]>([]);
     const [rowCount, setRowCount] = React.useState(0);
 
@@ -44,19 +48,25 @@ export default function Providers() {
     }, [paginationModel, filterModel]);
 
     return (
-        <div style={{ height: 600, width: '100%' }}>
-            <DataGrid
-                rows={providers}
-                columns={columns}
-                pagination
-                paginationMode="server"
-                rowCount={rowCount}
-                paginationModel={paginationModel}
-                onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
-                filterMode="server"
-                filterModel={filterModel}
-                onFilterModelChange={(newModel) => setFilterModel(newModel)}
-            />
-        </div>
+        <Box sx={{ display: 'flex', flexFlow: 'column', width: "100%", gap: 2 }}>
+            <Button component={Link} to="/app/providers/new" variant="contained" sx={{ width: 'max-content'}} startIcon={<Add />}>
+                Add Provider
+            </Button>
+            <div style={{ height: 600, width: '100%' }}>
+                <DataGrid
+                    rows={providers}
+                    columns={columns}
+                    pagination
+                    paginationMode="server"
+                    rowCount={rowCount}
+                    paginationModel={paginationModel}
+                    onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
+                    filterMode="server"
+                    filterModel={filterModel}
+                    onFilterModelChange={(newModel) => setFilterModel(newModel)}
+                    onRowDoubleClick={(params) => navigate(`/app/providers/${params.row.id}`)}
+                />
+            </div>
+        </Box>
     );
 }

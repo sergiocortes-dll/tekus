@@ -36,40 +36,46 @@ export default function Summary() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box >
       <Typography variant="h4" gutterBottom>
         Overview
       </Typography>
 
-      <Card sx={{ marginBottom: 4 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Proveedores por País
-          </Typography>
-          <DataGrid
-            rows={summary.providersPerCountry}
-            columns={columns}
-            pageSizeOptions={[5, 10]}
-            autoHeight
-            getRowId={(row) => row.countryId} // Usa countryId como ID único
-          />
-        </CardContent>
-      </Card>
+      <Box sx={{ display: 'flex', gap: 4}}>
+        <Card sx={{ flex: 1 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Proveedores por País
+            </Typography>
+            <div style={{ height: 600, width: "100%" }}>
+              <DataGrid
+                rows={summary.providersPerCountry}
+                columns={columns}
+                pageSizeOptions={[5, 10]}
+                autoHeight
+                getRowId={(row) => row.countryId} // Usa countryId como ID único
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Servicios por País
-          </Typography>
-          <DataGrid
-            rows={summary.servicesPerCountry}
-            columns={columns}
-            pageSizeOptions={[5, 10]}
-            autoHeight
-            getRowId={(row) => row.countryId}
-          />
-        </CardContent>
-      </Card>
+        <Card sx={{ flex: 1}}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Servicios por País
+            </Typography>
+            <div style={{ height: 600, width: "100%" }}>
+              <DataGrid
+                rows={summary.servicesPerCountry}
+                columns={columns}
+                pageSizeOptions={[5, 10]}
+                autoHeight
+                getRowId={(row) => row.countryId}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </Box>
     </Box>
   );
 }

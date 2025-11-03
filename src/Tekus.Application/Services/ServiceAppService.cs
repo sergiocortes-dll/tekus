@@ -62,34 +62,44 @@ public class ServiceAppService : GenericService<Service>, IServiceAppService
         int providerId,
         List<int> countryIds)
     {
-        var service = await _repository.GetByIdAsync(serviceId);
-        if (service == null)
-            throw new Exception($"Service {serviceId} not found");
-
-        service.Name = name;
-        service.HourlyRateUSD = hourlyRate;
-        service.ProviderId = providerId;
-
-        service.ServiceCountry.Clear();
-
-        foreach (var countryId in countryIds)
+        try
         {
-            var country = await _countryRepository.GetByIdAsync(countryId);
-            if (country != null)
-            {
-                service.ServiceCountry.Add(new ServiceCountry 
-                { 
-                    ServiceId = serviceId,
-                    CountryId = countryId
-                });
-            }
-        }
+        
+            var service = await _repository.GetByIdAsync(serviceId);
+            if (service == null)
+                throw new Exception($"Service {serviceId} not found");
 
-        await _repository.UpdateAsync(service);
-        await _repository.SaveChangesAsync();
-    
-        return service;
+            service.Name = name;
+            service.HourlyRateUSD = hourlyRate;
+            service.ProviderId = providerId;
+
+            service.ServiceCountry.Clear();
+        
+            foreach (var countryId in countryIds)
+            {
+                var country = await _countryRepository.GetByIdAsync(countryId);
+                if (country != null)
+                {
+                    service.ServiceCountry.Add(new ServiceCountry 
+                    { 
+                        Service = service, 
+                        Country = country
+                    });
+                }
+            }
+
+            await _repository.UpdateAsync(service);
+            await _repository.SaveChangesAsync();
+        
+            return service;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ERROR: {ex.Message}");
+            throw;
+        }
     }
+
 
     public async Task<PagedResponse<ServiceResponseDto>> GetPagedServicesAsync(PaginationFilter filter)
     {
@@ -117,5 +127,24 @@ public class ServiceAppService : GenericService<Service>, IServiceAppService
         );
 
         return new PagedResponse<ServiceResponseDto>(dtos, filter.PageNumber, filter.PageSize, totalRecords, filter.Sort, filter.SortDirection, filter.Search, filter.SearchField);
+    }
+
+    public async Task<IEnumerable<ServiceResponseDto>> GetByProviderAsync(int providerId)
+    {
+         var services = await _repository.GetByProviderAsync(providerId);
+
+        return services.Select(s => new ServiceResponseDto
+        {
+            Id = s.Id,
+            Name = s.Name,
+            HourlyRateUSD = s.HourlyRateUSD,
+            ProviderId = s.ProviderId,
+            ProviderName = s.Provider?.Name ?? string.Empty,
+            Countries = s.ServiceCountry?.Select(sc => new CountryDto
+            {
+                Id = sc.Country.Id,
+                Name = sc.Country.Name
+            }).ToList() ?? new List<CountryDto>()
+        });
     }
 }

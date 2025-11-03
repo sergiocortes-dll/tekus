@@ -8,4 +8,6 @@ public interface IServiceAppService : IGenericService<Service>
     Task<Service> CreateServiceWithCountriesAsync(string name, decimal hourlyRate, int providerId, List<int> countryIds);
     Task<Service> UpdateServiceWithCountriesAsync(int serviceId, string name, decimal hourlyRate, int providerId, List<int> countryIds);
     Task<PagedResponse<ServiceResponseDto>> GetPagedServicesAsync(PaginationFilter filter);
+    Task<IEnumerable<ServiceResponseDto>> GetByProviderAsync(int providerId);
+
 }
