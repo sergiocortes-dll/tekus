@@ -53,3 +53,18 @@ se copia el token que nos retorna y lo ponemos en la variable token de la colecc
 ![step-3.png](docs/endpoints/imgs/step-3.png)
 
 _El token expira 1 hora despues de generado._
+
+## Pruebas
+
+- **Unitarias**: En `tests/Tekus.Tests` (xUnit para services).
+  - Para correr las pruebas, desde la terminal usamos:
+- **Integración**: Postman collection. [Tekus.postman_collection.json](docs/endpoints/Tekus.postman_collection.json)
+
+## Pendientes
+
+- Más tests (integración con Moq)
+- Deploy a Azure
+
+## Referencias
+
+- Externo países: https://restcountries.com

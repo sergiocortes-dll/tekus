@@ -6,6 +6,10 @@ namespace Tekus.Infrastructure.Persistence;
 
 public class TekusDbContext : DbContext
 {
+    public TekusDbContext(DbContextOptions<TekusDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<Provider> Provider { get; set; }
     public DbSet<Service> Service { get; set; }
     public DbSet<Country> Country { get; set; }
