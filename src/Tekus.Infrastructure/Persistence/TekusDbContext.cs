@@ -6,21 +6,14 @@ namespace Tekus.Infrastructure.Persistence;
 
 public class TekusDbContext : DbContext
 {
+    public TekusDbContext(DbContextOptions<TekusDbContext> options) : base(options)
+    {
+    }
+
     public DbSet<Provider> Provider { get; set; }
     public DbSet<Service> Service { get; set; }
     public DbSet<Country> Country { get; set; }
     public DbSet<ServiceCountry> ServiceCountry { get; set; }
-    
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseSqlServer(
-                "Data Source=localhost\\SQLEXPRESS;User ID=sa;Password=password;Pooling=False;Connect Timeout=30;Encrypt=True;Database=TekusDb; Trust Server Certificate=True;Authentication=SqlPassword;Application Name=vscode-mssql;Application Intent=ReadWrite;Command Timeout=30")
-                .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Error);
-        }
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -16,8 +16,8 @@ export const routes = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
-        element: <div>Hola</div>,
+        index: true, 
+          loader: () => redirect("/app")
       },
       {
         path: "auth",

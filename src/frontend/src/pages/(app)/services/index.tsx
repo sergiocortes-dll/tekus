@@ -3,7 +3,7 @@ import * as React from "react";
 import { getServices  } from "@/services";
 import { type Service, type PagedServicesResponse } from "@/types";
 import {Link, useNavigate} from "react-router";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 const columns: GridColDef[] = [
@@ -62,6 +62,12 @@ export default function Services() {
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
                     filterMode="server"
+                    onRowClick={() => {
+                        if (!localStorage.getItem("dc_help")) {
+                            alert("If you want check details, double click.")
+                            localStorage.setItem("dc_help", "true");
+                        }
+                    }}
                     onRowDoubleClick={(params) => navigate(`/app/services/${params.row.id}`)}
                     filterModel={filterModel}
                     onFilterModelChange={(newModel) => setFilterModel(newModel)}

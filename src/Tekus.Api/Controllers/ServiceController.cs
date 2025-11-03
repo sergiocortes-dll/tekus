@@ -17,13 +17,6 @@ public class ServiceController : ControllerBase
     {
         _service = service;
     }
-
-    // [HttpGet]
-    // public async Task<IActionResult> GetAll()
-    // {
-    //     var services = await _service.GetAllAsync();
-    //     return Ok(services);
-    // }
     
     [HttpGet]
     public async Task<ActionResult<PagedResponse<ServiceResponseDto>>> GetPaged([FromQuery] PaginationFilter filter)

@@ -64,6 +64,12 @@ export default function Providers() {
                     filterMode="server"
                     filterModel={filterModel}
                     onFilterModelChange={(newModel) => setFilterModel(newModel)}
+                    onRowClick={() => {
+                        if (!localStorage.getItem("dc_help")) {
+                            alert("If you want check details, double click.")
+                            localStorage.setItem("dc_help", "true");
+                        }
+                    }}
                     onRowDoubleClick={(params) => navigate(`/app/providers/${params.row.id}`)}
                 />
             </div>
