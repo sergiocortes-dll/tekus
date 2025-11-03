@@ -3,7 +3,7 @@ import * as React from "react";
 import { getServices  } from "@/services";
 import { type Service, type PagedServicesResponse } from "@/types";
 import {Link, useNavigate} from "react-router";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
 const columns: GridColDef[] = [
