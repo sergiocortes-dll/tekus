@@ -51,6 +51,12 @@ export default function ServicesByProvider({id}: { id: number}) {
                     columns={columns}
                     pageSizeOptions={[5, 10, 20]}
                     onRowDoubleClick={(params) => navigate(`/app/services/${params.row.id}`)}
+                    onRowClick={() => {
+                        if (!localStorage.getItem("dc_help")) {
+                            alert("If you want check details, double click.")
+                            localStorage.setItem("dc_help", "true");
+                        }
+                    }}
                 />
                 </div>
             )}

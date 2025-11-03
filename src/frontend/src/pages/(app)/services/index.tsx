@@ -62,6 +62,12 @@ export default function Services() {
                     paginationModel={paginationModel}
                     onPaginationModelChange={(newModel) => setPaginationModel(newModel)}
                     filterMode="server"
+                    onRowClick={() => {
+                        if (!localStorage.getItem("dc_help")) {
+                            alert("If you want check details, double click.")
+                            localStorage.setItem("dc_help", "true");
+                        }
+                    }}
                     onRowDoubleClick={(params) => navigate(`/app/services/${params.row.id}`)}
                     filterModel={filterModel}
                     onFilterModelChange={(newModel) => setFilterModel(newModel)}
