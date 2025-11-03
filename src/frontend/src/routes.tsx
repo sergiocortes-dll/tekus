@@ -40,6 +40,10 @@ export const routes = createBrowserRouter([
         },
         children: [
           {
+            index: true,
+            loader: () => redirect('/app/providers')
+          },
+          {
             path: "summary",
             element: <Summary />
           },

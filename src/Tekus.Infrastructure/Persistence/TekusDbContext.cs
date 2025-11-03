@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Tekus.Domain.Entities;
 
 namespace Tekus.Infrastructure.Persistence;
@@ -15,7 +16,9 @@ public class TekusDbContext : DbContext
         if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=localhost\\SQLEXPRESS;User ID=sa;Password=password;Pooling=False;Connect Timeout=30;Encrypt=True;Database=TekusDb; Trust Server Certificate=True;Authentication=SqlPassword;Application Name=vscode-mssql;Application Intent=ReadWrite;Command Timeout=30");
+                "Data Source=localhost\\SQLEXPRESS;User ID=sa;Password=password;Pooling=False;Connect Timeout=30;Encrypt=True;Database=TekusDb; Trust Server Certificate=True;Authentication=SqlPassword;Application Name=vscode-mssql;Application Intent=ReadWrite;Command Timeout=30")
+                .EnableSensitiveDataLogging()
+                .LogTo(Console.WriteLine, LogLevel.Error);
         }
     }
 

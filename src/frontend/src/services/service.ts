@@ -7,6 +7,12 @@ export async function getServices(params?: PaginationParams): Promise<PagedServi
     return data as PagedServicesResponse;
 }
 
+
+export const getServicesByProvider = async (providerId: number): Promise<Service[]> => {
+  const { data } = await api.get(`/service/by-provider/${providerId}`);
+  return data;
+};
+
 export const getServiceById = async (id: number) => {
   const response = await api.get(`/service/${id}`);
   return response.data;

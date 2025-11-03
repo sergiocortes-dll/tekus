@@ -6,8 +6,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
-  minHeight: '48px !important',
-  height: '48px !important'
+  minHeight: '52px !important',
+  height: '52px !important'
 }));
 
 export default DrawerHeader;
