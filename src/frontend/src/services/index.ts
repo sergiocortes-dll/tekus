@@ -2,6 +2,7 @@ import axios from "axios";
 export * from './country';
 export * from './provider';
 export * from './service';
+export * from './summary';
 
 export const api = axios.create({
   baseURL: "http://localhost:5290/api",

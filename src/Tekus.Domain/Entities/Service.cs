@@ -17,5 +17,6 @@ public class Service
 
     public int ProviderId { get; set; }
     public Provider? Provider { get; set; }
-    public ICollection<Country> Countries { get; set; } = new List<Country>();
+    
+    public ICollection<ServiceCountry> ServiceCountry { get; set; } = new List<ServiceCountry>();
 }
